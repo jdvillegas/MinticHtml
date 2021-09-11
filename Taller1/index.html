@@ -1,0 +1,134 @@
+<html>
+    <head>
+        <title>Grafica de Funciones</title>
+    </head>
+    <body >
+        <table style=" margin-left: auto;
+        margin-right: auto; margin-top: 45px;">
+            <tr><td colspan=2 style="font-size: x-large; text-align: center; font-weight: bold;">Grafica de Funciones</td></tr>
+            <tr><td>Funcion</td><td>
+                <select name="cmbFuncion" id="cmbFuncion">
+                    <option id="Seno" value="Seno">Seno</option>
+                    <option id="Coseno" value="Coseno">Coseno</option>
+                    <option id="Cuadratica" value="Cuadratica">Cuadratica</option>
+                    <option id="Cubica" value="Cubica">Cúbica</option>
+                    
+                </select>
+            </td></tr>
+            <tr><td>X Inicial</td><td>
+                <input type="number" id="txtLI" name="txtLI"></input>
+            </td></tr>
+            <tr><td>X Final</td><td>
+                <input type="number" id="txtLS" name="txtLS"></input>
+            </td></tr>
+            <tr><td colspan="2">
+                <input type="button" id="btnGraficar" name="btnGraficar" value="Graficar" onclick="Graficar();" />
+            </td></tr>
+
+            <tr><td colspan="2">
+                <canvas id="cnvGrafica" name="cnvGrafica" width="800" height="400"></canvas>
+            </td></tr>
+        </table>
+    </body>
+    <script>
+        var canvas = document.getElementById("cnvGrafica");
+        var ctx = canvas.getContext("2d");
+
+        var ancho = canvas.width;
+        var alto = canvas.height;
+        Limpiar();
+
+        function Limpiar()
+        {
+            ctx.beginPath();
+            ctx.rect(0, 0, ancho, alto);
+            ctx.fillStyle = "black";
+            ctx.fill();
+            ctx.closePath();
+
+        }
+
+        function ObtenerFuncion(x)
+        {
+            var cmbFuncion = document.getElementById("cmbFuncion");
+     
+            switch(cmbFuncion.selectedIndex)
+            {
+                    case 0: return Math.sin(x);
+                    case 1: return Math.cos(x);
+                    case 2: return Math.pow(x,2);
+                    case 3: return Math.pow(x,3);
+                   
+            }
+        }
+
+        function Graficar()
+        {
+            
+            Limpiar();
+            xi = eval(txtLI.value);
+            xf = eval(txtLS.value);
+            if(xi != null && xf != null)
+            {
+                dX = (xf -xi) / ancho;
+                //Valores minimo y maximo de la Funcion
+                x = xi
+                yMax = ObtenerFuncion(x);
+                yMin = ObtenerFuncion(x);
+                for (xP = 0; xP <= ancho; xP++) {
+                x = x + dX;
+                fX = ObtenerFuncion(x);
+                if (fX > yMax)
+                yMax = fX;
+                if (fX < yMin)
+                yMin = fX;
+                }
+                //Incremento Eje Y
+                dY = (yMax - yMin) / alto
+                ctx.beginPath();
+                ctx.strokeStyle = "yellow";
+                //Mostrar eje X
+                if (yMin <= 0 && 0 <= yMax) {
+                yP = yMax / dY;
+                ctx.moveTo(0, yP);
+                ctx.lineTo(ancho, yP);
+                ctx.stroke();
+                }
+                //Mostar eje Y
+                if(xi<=0 && 0<=xf){
+                xP = Math.abs(xi) / dX;
+                ctx.moveTo(xP, 0);
+                ctx.lineTo(xP, alto);
+                ctx.stroke();
+                }
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.strokeStyle = "green";
+                x = xi;
+
+                //recorrer los puntos del eje X
+                for (xP = 0; xP <= ancho; xP++) {
+                y = ObtenerFuncion(x);
+                yP = (yMax - y) / dY;
+                if (xP > 0) {
+                ctx.moveTo(xP - 1, antyP);
+                ctx.lineTo(xP, yP);
+                ctx.stroke();
+                }
+                antyP = yP;
+                //incrementar x
+                x = x + dX
+                }
+                ctx.closePath();
+                }
+                else
+                {
+                window.alert("Faltan datos");
+                }
+
+
+
+            
+        }
+    </script>
+</html>
