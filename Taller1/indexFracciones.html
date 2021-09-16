@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Editor JavaScript online - www.cubicfactory.com</title>
+</head>
+<body>
+  <div>  
+  Numerador:
+  <input id="numerador" name="numerador" value="" /> 
+  <br/>
+  Denominador:
+  <input id="denominador" name="denominador" value="" /> 
+  <br/>
+  <br/>
+  <button onclick="graficar();">Graficar</button>
+    </div>
+<canvas width="1000" height="600" id="mipanel"></canvas>
+<script> 
+  
+  function graficar(){
+          Limpiar()
+            var numerador = document.getElementById("numerador");
+            var denominador = document.getElementById("denominador");
+                
+            var unidades = eval(numerador.value) / eval(denominador.value);
+            var resto = eval(numerador.value) % eval(denominador.value);
+            var resto = eval(resto/denominador.value);
+
+            var y = 50;
+            var x = 100;
+            for(i=0; i<unidades; i++){
+                x+=100;    
+                if(i%4==0)
+                {
+                y +=100
+                x = 50;  
+                    
+                }
+                pintarCirculo(x,y,1);
+                
+            }
+            if(resto>0){
+                    pintarCirculo(x+100,y,resto);//pinta el ultmo
+            }
+                
+  }
+  
+  function pintarCirculo(x,y,resultado){
+      var miLienzo = document.getElementById("mipanel");
+            var lapiz = miLienzo.getContext("2d");
+            lapiz.fillStyle = "#f00";
+            lapiz.beginPath();	
+      lapiz.arc(x,y,2,   0, 2*Math.PI,true); //circulo interno medio      
+      lapiz.arc(x,y,40, 0, resultado*2*Math.PI*-1,true); //circulo externo
+      lapiz.fill(); //pintar de color
+      lapiz.stroke(); //bordes
+  }
+  
+   function Limpiar()
+        {
+           var miLienzo = document.getElementById("mipanel"); 
+           var lapiz = miLienzo.getContext("2d"); 
+           lapiz.beginPath();
+           lapiz.rect(0, 0, 1000, 600);
+           lapiz.fillStyle = "white";
+           lapiz.fill();
+           lapiz.closePath();
+
+        }
+  
+</script> 
+</body>
+</html>
