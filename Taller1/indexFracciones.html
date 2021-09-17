@@ -3,9 +3,11 @@
 <head>
 <meta charset=utf-8 />
 <title>Editor JavaScript online - www.cubicfactory.com</title>
+<link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div>  
+  <div id="contenedor" class="contenedor">  
+      <div id="campos" class="campos">
   Numerador:
   <input id="numerador" name="numerador" value="" /> 
   <br/>
@@ -14,8 +16,22 @@
   <br/>
   <br/>
   <button onclick="graficar();">Graficar</button>
+</div>
+<div id="elfraccionario" class="elfraccionario">
+    <span class="texto"> El numero fraccionario es : </span>
+    <div id="entero" class="entero">
+        
+        <div id="pentero" class="pentero"></div>
     </div>
-<canvas width="1000" height="600" id="mipanel"></canvas>
+    <div id="fraccion" class="fraccion">
+        <div id="pnumerador" class="pnumerador"></div>
+        <div class="pdenominador" id="pdenominador"></div>
+    </div>
+</div>
+    </div>
+    <div id="contenedor2" class="contenedor2">
+<canvas width="1000" height="600" id="mipanel" class="mipanel"></canvas>
+</div>
 <script> 
   
   function graficar(){
@@ -23,15 +39,33 @@
             var numerador = document.getElementById("numerador");
             var denominador = document.getElementById("denominador");
                 
-            var unidades = eval(numerador.value) / eval(denominador.value);
+            var unidades = Math.floor(eval(numerador.value) / eval(denominador.value));
             var resto = eval(numerador.value) % eval(denominador.value);
+
+            if(unidades > 0)
+                document.getElementById("pentero").innerHTML=''+unidades;
+            else 
+                document.getElementById("pentero").innerHTML='';
+  
+            
+            if(resto > 0){
+            document.getElementById("pnumerador").innerHTML=''+resto;
+            document.getElementById("pdenominador").innerHTML=''+denominador.value;
+            }else
+            {
+                document.getElementById("pnumerador").innerHTML='';
+                document.getElementById("pdenominador").innerHTML='';
+                document.getElementsByClassName("pnumerador").stylesheet="border-bottom: 0px;";
+           
+            }
+
             var resto = eval(resto/denominador.value);
 
             var y = 50;
             var x = 100;
             for(i=0; i<unidades; i++){
                 x+=100;    
-                if(i%4==0)
+                if(i%8==0)
                 {
                 y +=100
                 x = 50;  
